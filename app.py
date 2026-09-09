@@ -163,6 +163,9 @@ def upload_system_pdf_to_drive(html_content, file_name, client_name, invoice_no)
         # PURE PYTHON PDF ENGINE - NO LINUX SEGFAULTS
         from xhtml2pdf import pisa 
         
+        # Clean broken or missing images that trigger xhtml2pdf 'notFound' crashes
+        clean_html = re.sub(r'<img[^>]*src=["\'](?:None|none|)["\'][^>]*>', '', str(html_content))
+        
         drive = get_drive_service()
         safe_client_name = str(client_name).replace("'", "\\'")
         safe_invoice_no = str(invoice_no).replace("'", "\\'")
@@ -177,7 +180,7 @@ def upload_system_pdf_to_drive(html_content, file_name, client_name, invoice_no)
             temp_pdf_path = temp_pdf.name
             
         with open(temp_pdf_path, "w+b") as result_file:
-            pisa_status = pisa.CreatePDF(html_content, dest=result_file)
+            pisa_status = pisa.CreatePDF(clean_html, dest=result_file)
             
         if pisa_status.err:
             st.error(f"PDF generation error for {file_name}")
@@ -341,11 +344,13 @@ def generate_html_document(title, inv_no, date, client, c_addr, supplier, s_prof
             "supplier_address": s_profile.get("Address", "Main Office Hub"), 
             "bl": bl, "total_ctns": total_ctns, "payment_terms": payment_terms, 
             "additional_notes": additional_notes, "primary_hex": s_profile.get("PrimaryHex", "#0A2240"), 
-            "logo_path": logo_path, "sig_path": sig_path, "signatory_position": signatory_position, 
+            "logo_path": logo_path or "", "sig_path": sig_path or "", "signatory_position": signatory_position, 
             "subtotal": f"{total_val:,.2f}", "freight": (f"{freight:,.2f}" if freight else None), 
             "grand_total": f"{(total_val + (freight or 0)):,.2f}", "items": items
         })
         rendered_html = re.sub(r'>\$\s*<', '><', rendered_html)
+        # Strip missing or broken image references from rendered HTML
+        rendered_html = re.sub(r'<img[^>]*src=["\'](?:None|none|)["\'][^>]*>', '', rendered_html)
 
     return rendered_html
 
@@ -562,6 +567,7 @@ def render_admin_tracker():
         duty_dict = {'exchange_rate': ex_rate, 'convert_to_ttd': 0.00, 'duty_owed': 0.00, 'vat_owed': 0.00, 'fixed_fees': float(ces_fee) + float(uf_fee), 'grand_total_ttd': 0.00}
         
         if uploaded_file and map_description != "-- Select --" and map_qty != "-- Select --" and map_price != "-- Select --":
+            df_raw = pd.read_csv(uploaded_file) if uploaded_file.name.endswith('.csv') else pd.read_excel(uploaded_file)
             df_clean = df_raw[[map_description, map_qty, map_price]].dropna().copy()
             df_clean.columns = ["Description", "Qty", "UnitPrice"]
             
