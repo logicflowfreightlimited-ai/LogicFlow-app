@@ -163,8 +163,11 @@ def upload_system_pdf_to_drive(html_content, file_name, client_name, invoice_no)
         # PURE PYTHON PDF ENGINE - NO LINUX SEGFAULTS
         from xhtml2pdf import pisa 
         
-        # Clean broken or missing images that trigger xhtml2pdf 'notFound' crashes
-        clean_html = re.sub(r'<img[^>]*src=["\'](?:None|none|)["\'][^>]*>', '', str(html_content))
+        # 1. Strip empty or missing watermark background-image CSS rules that trigger xhtml2pdf 'notFound' crashes
+        clean_html = re.sub(r'background-image:\s*url\s*\(\s*[\'"]?(?:None|none|)?[\'"]?\s*\)\s*;?', '', str(html_content), flags=re.IGNORECASE)
+        
+        # 2. Strip broken or missing img tags
+        clean_html = re.sub(r'<img[^>]*src=["\'](?:None|none|)["\'][^>]*>', '', clean_html, flags=re.IGNORECASE)
         
         drive = get_drive_service()
         safe_client_name = str(client_name).replace("'", "\\'")
@@ -344,13 +347,14 @@ def generate_html_document(title, inv_no, date, client, c_addr, supplier, s_prof
             "supplier_address": s_profile.get("Address", "Main Office Hub"), 
             "bl": bl, "total_ctns": total_ctns, "payment_terms": payment_terms, 
             "additional_notes": additional_notes, "primary_hex": s_profile.get("PrimaryHex", "#0A2240"), 
-            "logo_path": logo_path or "", "sig_path": sig_path or "", "signatory_position": signatory_position, 
+            "logo_path": logo_path or "", "sig_path": sig_path or "", "watermark_path": "", "signatory_position": signatory_position, 
             "subtotal": f"{total_val:,.2f}", "freight": (f"{freight:,.2f}" if freight else None), 
             "grand_total": f"{(total_val + (freight or 0)):,.2f}", "items": items
         })
         rendered_html = re.sub(r'>\$\s*<', '><', rendered_html)
-        # Strip missing or broken image references from rendered HTML
-        rendered_html = re.sub(r'<img[^>]*src=["\'](?:None|none|)["\'][^>]*>', '', rendered_html)
+        # Strip missing/empty background-image and broken img tags
+        rendered_html = re.sub(r'background-image:\s*url\s*\(\s*[\'"]?(?:None|none|)?[\'"]?\s*\)\s*;?', '', rendered_html, flags=re.IGNORECASE)
+        rendered_html = re.sub(r'<img[^>]*src=["\'](?:None|none|)["\'][^>]*>', '', rendered_html, flags=re.IGNORECASE)
 
     return rendered_html
 
