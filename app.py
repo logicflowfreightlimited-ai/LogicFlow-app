@@ -79,7 +79,7 @@ for folder in ["uploaded_docs", "logos", "signatures", "watermarks", "templates"
 # ==========================================
 # 2. CONSTANTS & DATA SCHEMA
 # ==========================================
-SHEET_URL = "https://docs.google.com/spreadsheets/d/1wUBZSnB7cJ2T5_iY5_POpfsNmZn0INGj08EdcLc7TsQ/edit?usp=sharing"
+SHEET_URL = "https://docs.google.com/spreadsheets/d/12cVqnzzpp5sDbyHgLI2HLDM4qzEqToXMjzGMjyC5jAw/edit?usp=sharing"
 ROOT_FOLDER_ID = "1CITSPAI-BoFeQQLLkmeoX2wkjunTbpGm"
 
 ALL_COUNTRIES = [
