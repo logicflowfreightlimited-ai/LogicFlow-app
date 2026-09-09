@@ -1,0 +1,31 @@
+# SYSTEM BLUEPRINT: Meridian61 Logistics Engine
+**Last Updated:** Phase 2 Completed. Ready for Phase 3 (HTML Template Engine Migration & Client Dashboard).
+
+## 1. Environment & Architecture
+* **Language/Framework:** Python 3.x / Streamlit
+* **Core Libraries:** pandas, fpdf, gspread, google-api-python-client
+* **Launch Command:** `python -m streamlit run 0_Secure_Gatekeeper.py`
+* **Local Directory Structure:**
+  * `/pages/1_Master_Tracker.py` (Main Admin Engine)
+  * `/uploaded_docs` (Local PDF Backups)
+  * `/logos` (Dynamic Shipper Branding)
+  * `/signatures` (Authorized Signatures)
+  * `/watermarks` (Security Backgrounds)
+  * `clients.csv`, `suppliers.csv`, `supplier_mappings.csv` (Local Memory Registries)
+
+## 2. Cloud Infrastructure
+* **Google Sheets Master Log:** Tracks Invoice, Date, BL#, Entities, Financials, Taxes, and 4 Secure Web URLs.
+* **Google Drive Vault:** Automatically creates Client-named folders and stores PDF backups securely.
+* **Authentication:** `token.json` and `client_secret.json` handle OAuth2 flow.
+
+## 3. Core Engine Features (Phase 2 Snapshot)
+* **Visual Column Mapper:** Dynamically reads uploaded CSVs and maps Description, Qty, and Price, saving preferences to local memory.
+* **Dynamic Brand Studio:** Admins can assign exact Hex Colors, Font Families (Arial, Times, Courier), Base Font Sizes, Table Styles (Zebra/Grid), and Logo positions to individual shippers.
+* **Live PDF Rendering:** Uses base64 encoding to display interactive PDF previews in Streamlit tabs before database commitment.
+* **Watermark Injection:** Custom FPDF class securely stamps background PNGs onto rendered pages without disrupting coordinate geometry.
+* **Crash Protection:** Uses `enumerate()` to loop through mapped CSV data to prevent IndexErrors when empty rows are dropped.
+
+## 4. Current Objective (Phase 3)
+* Halt use of FPDF for document generation.
+* Migrate the PDF compiler to an HTML/CSS Template Engine (Jinja2 + HTML-to-PDF library) to easily scale to 100+ unique shipper layouts using free, open-source transactional templates.
+* Build the Client-Facing Dashboard.

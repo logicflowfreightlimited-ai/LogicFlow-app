@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <style>
+        /* --- TYPOGRAPHY ARTIFACT ERASURE --- */
+        @font-face {
+            font-family: 'OpenSans';
+            src: url('fonts/OpenSans-Regular.ttf');
+        }
+
+        /* --- CORE LETTER-LANDSCAPE DOCUMENT GEOMETRY WITH OPTIMIZED MARGINS --- */
+        @page {
+            size: letter landscape;
+            margin: 0.25in;
+            background-image: url('{{ watermark_path }}');
+        }
+        
+        body {
+            font-family: 'OpenSans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            color: #111111;
+            background-color: #ffffff;
+            margin: 0;
+            padding: 0;
+            font-size: 11px;
+            line-height: 1.3;
+        }
+
+        /* --- STRUCTURAL LAYOUT COMPONENT CONTROLLERS --- */
+        .invoice-container {
+            width: 10.5in; 
+            margin: 0 auto;
+        }
+
+        .layout-grid {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 10px;
+        }
+        
+        .layout-grid td {
+            border: none;
+            padding: 0;
+            vertical-align: top;
+        }
+
+        /* Top Header Title Layout */
+        .title-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 12px;
+            border-bottom: 2px solid #111111;
+            padding-bottom: 5px;
+        }
+
+        .title-table td {
+            border: none;
+            padding: 0;
+            vertical-align: middle;
+        }
+
+        .document-title {
+            font-size: 24px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin: 0;
+            color: #000000;
+        }
+
+        /* Landscape Parallel Shaded Information Panels (Trimmed for 1-Page Limits) */
+        .panel-box-container {
+            border: 1px solid #a0a0a0;
+            background-color: #f8f9fa;
+            padding: 8px 12px;
+            border-radius: 4px;
+        }
+
+        .panel-header-badge {
+            font-size: 9px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #495057;
+            margin-bottom: 6px;
+            border-bottom: 1px solid #dee2e6;
+            padding-bottom: 4px;
+        }
+
+        .company-name {
+            font-size: 14px;
+            font-weight: 800;
+            text-transform: uppercase;
+            margin: 0 0 4px 0;
+            color: #000000;
+            letter-spacing: 0.3px;
+        }
+
+        .address-text {
+            font-size: 10px;
+            color: #222222;
+            line-height: 1.4;
+            text-transform: uppercase;
+        }
+
+        .meta-section {
+            border-top: 1px solid #cccccc;
+            margin-top: 8px;
+            padding-top: 8px;
+        }
+
+        .meta-item {
+            font-size: 10.5px;
+            margin: 3px 0;
+        }
+        
+        .meta-label {
+            font-weight: 700;
+            color: #444444;
+            text-transform: uppercase;
+        }
+
+        .meta-value {
+            font-weight: 500;
+            color: #000000;
+        }
+
+        /* --- HIGH-DENSITY LANDSCAPE MANIFEST GRID CONTROLLERS --- */
+        thead {
+            display: table-header-group;
+        }
+
+        .manifest-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 15px;
+        }
+
+        .manifest-table th {
+            background-color: #495057;
+            color: #ffffff;
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 9.5px;
+            letter-spacing: 0.5px;
+            padding: 6px 8px;
+            border: 1px solid #343a40;
+            text-align: left;
+        }
+
+        .manifest-table td {
+            padding: 6px 8px;
+            border: 1px solid #dee2e6;
+            vertical-align: middle;
+            font-size: 11px;
+            color: #111111;
+        }
+
+        .manifest-table tr:nth-child(even) td {
+            background-color: #f8f9fa;
+        }
+
+        /* --- LOWER SUMMARY AND SIGNATORY FOOTER BLOCK --- */
+        .certification-text {
+            font-size: 8.5px;
+            font-weight: 600;
+            text-transform: uppercase;
+            color: #333333;
+            line-height: 1.4;
+            margin-bottom: 10px;
+            letter-spacing: 0.1px;
+            text-align: justify;
+        }
+
+        .signature-status-title {
+            font-size: 9.5px;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: #000000;
+            margin-bottom: 8px;
+            letter-spacing: 0.5px;
+        }
+
+        .signature-graphic-box {
+            margin: 5px 0;
+            height: 40px;
+        }
+
+        .signature-graphic-box img {
+            height: 40px;
+            width: auto;
+            display: block;
+        }
+
+        .signatory-jd {
+            font-size: 10px;
+            font-weight: bold;
+            color: #111111;
+            margin-top: 5px;
+        }
+
+        .financial-summary-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .financial-summary-table td {
+            border: 1px solid #adb5bd;
+            padding: 6px 12px;
+            font-size: 11px;
+        }
+
+        .financial-label {
+            width: 50%;
+            font-weight: 700;
+            color: #333333;
+            background-color: #f1f3f5;
+            text-transform: uppercase;
+            font-size: 9.5px;
+            letter-spacing: 0.5px;
+            text-align: left;
+        }
+
+        .financial-value {
+            width: 50%;
+            text-align: right;
+            font-weight: 700;
+            color: #000000;
+            background-color: #ffffff;
+            font-size: 11px;
+        }
+
+        .grand-total-row .financial-label {
+            font-size: 10.5px;
+            font-weight: 800;
+            background-color: #e9ecef;
+            color: #000000;
+            border-top: 2px solid #495057;
+        }
+
+        .grand-total-row .financial-value {
+            font-size: 13px;
+            font-weight: 800;
+            background-color: #dee2e6;
+            color: #000000;
+            border-top: 2px solid #495057;
+        }
+    </style>
+</head>
+<body>
+
+<div class="invoice-container">
+
+    <table class="title-table">
+        <tr>
+            <td>
+                <h1 class="document-title">{{ title if title else "Commercial Invoice" }}</h1>
+            </td>
+            <td style="text-align: right;">
+                {% if logo_path %}
+                    <img src="{{ logo_path }}" style="max-height: 40px; width: auto; display: block; float: right;">
+                {% endif %}
+            </td>
+        </tr>
+    </table>
+
+    <table class="layout-grid">
+        <tr>
+            <td style="width: 48%;">
+                <div class="panel-box-container">
+                    <div class="panel-header-badge">Shipper &amp; Invoice Details</div>
+                    <h2 class="company-name">{{ supplier_name }}</h2>
+                    <div class="address-text">{{ supplier_address }}</div>
+                    
+                    <div class="meta-section">
+                        <div class="meta-item">
+                            <span class="meta-label">Invoice Number:</span>
+                            <span class="meta-value"><strong>{{ inv_no }}</strong></span>
+                        </div>
+                        <div class="meta-item">
+                            <span class="meta-label">Date:</span>
+                            <span class="meta-value">{{ date }}</span>
+                        </div>
+                        {% if payment_terms %}
+                        <div class="meta-item">
+                            <span class="meta-label">Payment Terms:</span>
+                            <span class="meta-value">{{ payment_terms }}</span>
+                        </div>
+                        {% endif %}
+                        {% if bl %}
+                        <div class="meta-item">
+                            <span class="meta-label">B/L Reference:</span>
+                            <span class="meta-value"><strong>{{ bl }}</strong></span>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </td>
+            
+            <td style="width: 4%;"></td>
+            
+            <td style="width: 48%;">
+                <div class="panel-box-container" style="min-height: 125px;">
+                    <div class="panel-header-badge">Consignee</div>
+                    <h2 class="company-name">{{ client_name }}</h2>
+                    <div class="address-text">{{ client_address }}</div>
+                </div>
+            </td>
+        </tr>
+    </table>
+
+    <table class="manifest-table">
+        <thead>
+            <tr>
+                <th style="width: 55%;">Description</th>
+                <th style="width: 15%; text-align: right;">Quantity</th>
+                <th style="width: 15%; text-align: right;">Unit Price (USD)</th>
+                <th style="width: 15%; text-align: right;">Amount (USD)</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in items %}
+            <tr>
+                <td style="width: 55%; font-weight: bold;">
+                    {{ item.Description }}
+                </td>
+                <td style="width: 15%; text-align: right;">{{ item.Qty }}</td>
+                <td style="width: 15%; text-align: right;">${{ item.UnitPrice }}</td>
+                <td style="width: 15%; text-align: right; font-weight: bold;">${{ item.Total }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <table class="layout-grid" style="page-break-inside: avoid;">
+        <tr>
+            <td style="width: 55%; padding-right: 40px;">
+                <div class="certification-text">
+                    It is hereby certified that this invoice shows the actual price of the goods described that no other invoice has been or will be issued and that all particulars are true.
+                </div>
+                <div class="signature-status-title">Signature and Status of Authorised Person</div>
+                
+                <div class="signature-graphic-box">
+                    {% if sig_path %}
+                        <img src="{{ sig_path }}">
+                    {% else %}
+                        <div style="height: 40px;"></div>
+                    {% endif %}
+                </div>
+                
+                <div class="signatory-jd">{{ signatory_position if signatory_position else "Managing Director / Authorized Signatory" }}</div>
+            </td>
+            
+            <td style="width: 45%;">
+                <table class="financial-summary-table">
+                    <tr>
+                        <td class="financial-label">Total Cartons</td>
+                        <td class="financial-value">{{ total_ctns }} CTNS</td>
+                    </tr>
+                    <tr>
+                        <td class="financial-label">Sub-Total</td>
+                        <td class="financial-value">${{ subtotal }}</td>
+                    </tr>
+                    <tr>
+                        <td class="financial-label">Freight</td>
+                        <td class="financial-value">${{ freight if freight else "0.00" }}</td>
+                    </tr>
+                    <tr class="grand-total-row">
+                        <td class="financial-label">Invoice Total C&amp;F (USD$)</td>
+                        <td class="financial-value">${{ grand_total }}</td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+
+</div>
+
+</body>
+</html>

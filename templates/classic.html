@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        @page { size: letter portrait; margin: 0.5in; }
+        body { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 11px; color: #333333; line-height: 1.4; }
+        .header-table { width: 100%; border-bottom: 2px solid {{ primary_hex }}; padding-bottom: 10px; margin-bottom: 20px; }
+        .grid-table { width: 100%; border-collapse: collapse; margin-top: 15px; margin-bottom: 15px; }
+        .grid-table th { background-color: #f8f9fa; padding: 8px; text-align: left; border: 1px solid #dee2e6; font-weight: bold; color: #495057; text-transform: uppercase; font-size: 10px; }
+        .grid-table td { padding: 8px; border: 1px solid #dee2e6; vertical-align: top; }
+    </style>
+</head>
+<body>
+    <table class="header-table">
+        <tr>
+            <td style="width: 60%; vertical-align: bottom;">
+                {% if logo_path %}<img src="{{ logo_path }}" style="max-height: 50px; margin-bottom: 5px;">{% endif %}
+                <div style="font-size: 14px; font-weight: bold;">{{ supplier_name }}</div>
+                <div style="font-size: 10px; color: #6c757d;">{{ supplier_address }}</div>
+            </td>
+            <td style="width: 40%; text-align: right; vertical-align: bottom;">
+                <h1 style="color: {{ primary_hex }}; margin: 0 0 5px 0; font-size: 20px; text-transform: uppercase;">{{ title }}</h1>
+                <div style="font-size: 11px;">
+                    <strong>INV NO:</strong> {{ inv_no }}<br>
+                    <strong>DATE:</strong> {{ date }}
+                </div>
+            </td>
+        </tr>
+    </table>
+    
+    <table style="width: 100%; margin-bottom: 20px; border-collapse: collapse;">
+        <tr>
+            <td style="width: 50%; border: 1px solid #dee2e6; padding: 10px; background-color: #fdfdfd;">
+                <span style="font-size: 9px; font-weight: bold; color: #6c757d; text-transform: uppercase;">Consignee / Importer</span><br>
+                <strong>{{ client_name }}</strong><br>
+                {{ client_address }}
+            </td>
+            <td style="width: 50%; border: 1px solid #dee2e6; padding: 10px;">
+                <table style="width: 100%; font-size: 10px;">
+                    <tr><td style="padding-bottom: 4px;"><strong>BL#:</strong></td><td style="padding-bottom: 4px;">{{ bl }}</td></tr>
+                    <tr><td style="padding-bottom: 4px;"><strong>Terms:</strong></td><td style="padding-bottom: 4px;">{{ payment_terms }}</td></tr>
+                    <tr><td style="padding-bottom: 4px;"><strong>Total CTNS:</strong></td><td style="padding-bottom: 4px;">{{ total_ctns }}</td></tr>
+                    <tr><td><strong>Cargo Notes:</strong></td><td>{{ additional_notes }}</td></tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+
+    <table class="grid-table">
+        <tr>
+            <th style="width: 55%;">Description</th>
+            <th style="width: 15%; text-align: center;">Qty</th>
+            <th style="width: 15%; text-align: right;">Unit Price</th>
+            <th style="width: 15%; text-align: right;">Total (USD)</th>
+        </tr>
+        {% for item in items %}
+        <tr>
+            <td><strong>{{ item.Description }}</strong></td>
+            <td style="text-align: center;">{{ item.Qty }}</td>
+            <td style="text-align: right;">${{ item.UnitPrice }}</td>
+            <td style="text-align: right; font-weight: bold;">${{ item.Total }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <table style="width: 100%; margin-top: 20px; page-break-inside: avoid;">
+        <tr>
+            <td style="width: 60%; vertical-align: top; padding-right: 20px;">
+                {% if is_caricom %}
+                <div style="border: 1px solid #dee2e6; background-color: #f8f9fa; padding: 10px; font-size: 9px; color: #495057; text-align: justify; margin-bottom: 15px;">
+                    <strong>CARICOM COMMON MARKET DECLARATION:</strong><br>
+                    The undermentioned exporter hereby declares that the cargo specified in this commercial invoice manifest has been produced completely within the parameters of the common market rules of origin.
+                </div>
+                {% endif %}
+                <div style="margin-top: 10px;">
+                    {% if sig_path %}<img src="{{ sig_path }}" style="max-height: 45px; border-bottom: 1px solid #333; padding-bottom: 2px; margin-bottom: 4px; display: block;">{% endif %}
+                    <span style="font-size: 10px; font-weight: bold;">{{ signatory_position }}</span>
+                </div>
+            </td>
+            <td style="width: 40%; vertical-align: top;">
+                <table style="width: 100%; border-collapse: collapse;">
+                    <tr>
+                        <td style="padding: 6px; border-bottom: 1px solid #dee2e6;">Subtotal:</td>
+                        <td style="padding: 6px; border-bottom: 1px solid #dee2e6; text-align: right;">${{ subtotal }}</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 6px; border-bottom: 1px solid #dee2e6;">Ocean Freight:</td>
+                        <td style="padding: 6px; border-bottom: 1px solid #dee2e6; text-align: right;">${{ freight if freight else '0.00' }}</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px 6px; font-weight: bold; font-size: 13px; color: #ffffff; background-color: {{ primary_hex }};">TOTAL DUE:</td>
+                        <td style="padding: 10px 6px; font-weight: bold; font-size: 13px; color: #ffffff; background-color: {{ primary_hex }}; text-align: right;">${{ grand_total }} USD</td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>

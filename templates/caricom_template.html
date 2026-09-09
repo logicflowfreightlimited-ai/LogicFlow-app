@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        @page { size: letter {{ orientation }}; margin: 0.35in; }
+        body { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 11px; color: #111; line-height: 1.3; }
+        .header-master { width: 100%; border-bottom: 2px solid {{ primary_hex }}; padding-bottom: 10px; margin-bottom: 12px; border-collapse: collapse; }
+        .brand-title { font-size: 18px; font-weight: 800; text-transform: uppercase; margin: 0 0 2px 0; color: {{ primary_hex }}; }
+        .meta-title { font-size: 16px; font-weight: bold; text-transform: uppercase; margin: 0 0 5px 0; letter-spacing: 1px; color: {{ primary_hex }}; }
+        .section-label { font-size: 9px; font-weight: bold; text-transform: uppercase; border-bottom: 1px solid {{ primary_hex }}; padding-bottom: 3px; margin-bottom: 4px; letter-spacing: 0.5px; }
+        table.grid { width: 100%; border-collapse: collapse; margin-bottom: 12px; }
+        table.grid th { background-color: #f4f4f4; border: 1px solid #111; font-size: 9px; text-transform: uppercase; padding: 6px 8px; text-align: left; }
+        table.grid td { border: 1px solid #111; padding: 6px 8px; font-size: 10px; font-weight: bold; }
+        table.manifest { width: 100%; border-collapse: collapse; margin-bottom: 15px; }
+        table.manifest th { background-color: {{ primary_hex }}; color: #fff; border: 1px solid #111; font-size: 9.5px; text-transform: uppercase; padding: 6px 8px; text-align: left; }
+        table.manifest td { border-bottom: 1px solid #e0e0e0; padding: 6px 8px; font-size: 10.5px; vertical-align: middle; border-left: 1px solid #ccc; border-right: 1px solid #ccc;}
+        .footer-table { width: 100%; border-collapse: collapse; margin-top: 10px; page-break-inside: avoid; }
+        .declaration-box { border: 1px solid #111; padding: 8px 10px; font-size: 8.5px; text-align: justify; color: #333; }
+        .totals-table { width: 100%; border-collapse: collapse; }
+        .totals-table td { padding: 6px 10px; font-size: 11px; border-bottom: 1px solid #e0e0e0; text-align: right; }
+        .totals-table .total-row td { font-weight: bold; font-size: 13px; border-top: 2px solid #111; border-bottom: 2px solid #111; background-color: #fff; color: {{ primary_hex }}; }
+        .signature-frame { height: 150px; border-bottom: 1px solid #111; width: 200px; margin-bottom: 4px; vertical-align: bottom; }
+    </style>
+</head>
+<body>
+
+    <table class="header-master">
+        <tr>
+            <td style="width: 70%; vertical-align: middle;">
+                <table style="width: auto; border-collapse: collapse;">
+                    <tr>
+                        <td style="width: 130px; vertical-align: middle; padding-right: 15px;">
+                            {% if logo_path %}<img src="{{ logo_path }}" style="max-height: 50px; max-width: 120px; display: block;">{% endif %}
+                        </td>
+                        <td style="vertical-align: middle;">
+                            <div class="brand-title">{{ supplier_name }}</div>
+                            <div style="font-size: 10px; color: #333;">{{ supplier_address }}</div>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+            <td style="width: 30%; text-align: right; vertical-align: bottom;">
+                <div class="meta-title">CARICOM INVOICE</div>
+                <div style="font-size: 10px; color: #111;">
+                    <strong>REF NO:</strong> {{ inv_num }}<br>
+                    <strong>DATE:</strong> {{ date }}
+                </div>
+            </td>
+        </tr>
+    </table>
+
+    <table style="width: 100%; border-collapse: collapse; margin-bottom: 12px;">
+        <tr>
+            <td style="width: 50%; border: 1px solid #111; padding: 8px 10px;">
+                <div class="section-label">EXPORTER / SHIPPER</div>
+                <div style="font-size: 10.5px; line-height: 1.4;">
+                    <strong>{{ supplier_name }}</strong><br>
+                    {{ supplier_address }}
+                </div>
+            </td>
+            <td style="width: 50%; border: 1px solid #111; padding: 8px 10px; border-left: none;">
+                <div class="section-label">CONSIGNEE / IMPORTER</div>
+                <div style="font-size: 10.5px; line-height: 1.4;">
+                    <strong>{{ client_name }}</strong><br>
+                    {{ client_address }}
+                </div>
+            </td>
+        </tr>
+    </table>
+
+    <table class="grid">
+        <tr>
+            <th>INVOICE NO.</th>
+            <th>DATE</th>
+            <th>CUSTOMER'S ORDER NO.</th>
+            <th>TRANSPORT MODE</th>
+        </tr>
+        <tr>
+            <td>{{ inv_num }}</td>
+            <td>{{ date }}</td>
+            <td>{{ compliance_data.get('cust_order_no', '') }}</td>
+            <td>{{ compliance_data.get('mode_transport', '') }}</td>
+        </tr>
+    </table>
+
+    <table class="grid">
+        <tr>
+            <th>COUNTRY OF ORIGIN</th>
+            <th>PORT OF LOADING</th>
+            <th>PORT OF DISCHARGE</th>
+            <th>FINAL DESTINATION</th>
+        </tr>
+        <tr>
+            <td>{{ compliance_data.get('country_origin', '') }}</td>
+            <td>{{ compliance_data.get('port_loading', '') }}</td>
+            <td>{{ compliance_data.get('port_discharge', '') }}</td>
+            <td>{{ compliance_data.get('final_dest', '') }}</td>
+        </tr>
+    </table>
+
+    <table class="grid">
+        <tr>
+            <th>BILL OF LADING (B/L#)</th>
+            <th>TOTAL VOLUME ALLOCATION</th>
+            <th>PAYMENT OPERATIONS TERMS</th>
+        </tr>
+        <tr>
+            <td>{{ bl }}</td>
+            <td>{{ total_ctns }} CTNS</td>
+            <td>{{ payment_terms }}</td>
+        </tr>
+    </table>
+
+    <table class="manifest">
+        <tr>
+            <th style="width: 60%;">SPECIFICATION OF COMMODITIES / CARGO DESCRIPTION</th>
+            <th style="text-align: center; width: 15%;">QUANTITY COUNT</th>
+            <th style="text-align: right; width: 10%;">UNIT PRICE (USD)</th>
+            <th style="text-align: right; width: 15%;">TOTAL VALUE (USD)</th>
+        </tr>
+        <tr>
+            <td style="font-weight: bold;">{{ additional_notes }} as per invoice # {{ inv_num }}, dated: {{ date }}</td>
+            <td style="text-align: center;">-</td>
+            <td style="text-align: right;">-</td>
+            <td style="text-align: right; font-weight: bold;">${{ subtotal }}</td>
+        </tr>
+    </table>
+
+    <table class="footer-table">
+        <tr>
+            <td style="width: 60%; padding-right: 20px; vertical-align: top;">
+                <div class="declaration-box">
+                    <strong>CARICOM COMMON MARKET DECLARATION:<br>The undermentioned exporter hereby declares that the cargo specified in this commercial invoice manifest has been produced completely within the parameters of the common market rules of origin. All values and freight indices specified herein match active terminal data profiles perfectly.</strong>
+                </div>
+                
+                <div style="margin-top: 15px;">
+                    <div style="font-size: 8px; color: #111; text-transform: uppercase; font-weight: bold;">AUTHORIZED VENDOR AUTHENTICATION SIGNATURE</div>
+                    <div class="signature-frame">
+                        {% if sig_path %}
+                        <img src="{{ sig_path }}" style="height: 150px; max-width: 100%; object-fit: contain; mix-blend-mode: multiply; filter: brightness(1.05) contrast(1.2); display: block;">
+                        {% endif %}
+                    </div>
+                    <div style="font-size: 9px; font-weight: bold; color: #111; margin-top: 2px;">{{ signatory_position }}</div>
+                </div>
+            </td>
+            
+            <td style="width: 40%; vertical-align: top;">
+                <table class="totals-table">
+                    <tr>
+                        <td style="text-align: left;">Merchandise Subtotal:</td>
+                        <td><strong>${{ subtotal }}</strong></td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: left;">Ocean Freight Charges:</td>
+                        <td>${{ freight }}</td>
+                    </tr>
+                    <tr class="total-row">
+                        <td style="text-align: left;">INVOICE TOTAL CF:</td>
+                        <td>${{ grand_total }} USD</td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+
+</body>
+</html>

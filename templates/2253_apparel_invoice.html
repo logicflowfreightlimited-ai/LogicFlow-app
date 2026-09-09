@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Commercial Invoice - {{ supplier_name }}</title>
+    <style>
+        /* --- TYPOGRAPHY & ARTIFACT ERASURE --- */
+        @font-face {
+            font-family: 'LiberationSans';
+            src: url('fonts/LiberationSans-Regular.ttf');
+        }
+
+        /* --- CANVAS BOUNDARIES & WATERMARK INJECTION --- */
+        @page {
+            size: letter portrait;
+            margin: 35px 40px;
+            background-image: url('{{ watermark_path }}');
+        }
+        
+        body {
+            font-family: 'LiberationSans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            color: #1e293b;
+            background-color: #ffffff;
+            margin: 0;
+            padding: 0;
+            font-size: 10px;
+            line-height: 1.3;
+        }
+
+        /* --- STRICT TABLE GEOMETRY (NO FLEX/GRID) --- */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        /* Vertical Economy Mandate: Cell padding strictly between 5px and 8px */
+        td, th {
+            border: none;
+            padding: 6px 8px;
+            vertical-align: top;
+        }
+
+        /* --- BRANDING & HEADER --- */
+        .brand-address {
+            font-size: 9.5px;
+            color: #64748b;
+            line-height: 1.4;
+        }
+
+        .document-title {
+            font-size: 22px;
+            font-weight: 900;
+            color: #2563eb;
+            text-align: right;
+            letter-spacing: 0.5px;
+            margin-bottom: 2px;
+        }
+
+        .document-subtitle {
+            font-size: 9.5px;
+            color: #64748b;
+            text-align: right;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* --- STYLIZED METADATA BANNER (Spacers under 12px) --- */
+        .meta-banner {
+            background-color: #f1f5f9;
+            border-left: 4px solid #2563eb;
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+
+        .meta-label {
+            font-size: 8px;
+            font-weight: bold;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            display: block;
+            margin-bottom: 2px;
+        }
+
+        .meta-value {
+            font-size: 10.5px;
+            font-weight: bold;
+            color: #1e293b;
+        }
+
+        /* --- CONSIGNEE SECTION --- */
+        .section-header {
+            font-size: 10px;
+            font-weight: 800;
+            color: #1e293b;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 3px;
+            margin-bottom: 6px;
+        }
+
+        .client-card {
+            background-color: #ffffff;
+            margin-bottom: 8px;
+        }
+
+        /* --- LINE ITEMS TABLE (HEADER SPLITTING ENABLED) --- */
+        thead {
+            display: table-header-group;
+        }
+
+        .manifest-table {
+            margin-top: 8px;
+            margin-bottom: 10px;
+        }
+
+        .manifest-table th {
+            background-color: #1e293b;
+            color: #ffffff;
+            font-size: 9px;
+            font-weight: bold;
+            padding: 7px 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            text-align: left;
+        }
+
+        .manifest-table td {
+            padding: 6px 8px;
+            border-bottom: 1px solid #e2e8f0;
+            vertical-align: middle;
+            font-size: 10px;
+        }
+
+        .manifest-table tr:nth-child(even) td {
+            background-color: #f8fafc;
+        }
+
+        .text-right { text-align: right; }
+        .text-center { text-align: center; }
+
+        /* --- SUMMARY & SIGNATURE SUITE (ORPHAN PREVENTION) --- */
+        .summary-container {
+            page-break-inside: avoid;
+            margin-top: 8px;
+        }
+
+        .totals-table td {
+            padding: 6px 8px;
+            font-size: 10.5px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .totals-table .grand-total {
+            background-color: #2563eb;
+            color: #ffffff;
+            font-weight: bold;
+            font-size: 12px;
+        }
+
+        .totals-table .grand-total td {
+            padding: 8px;
+            border: none;
+        }
+
+        /* --- SIGNATURE BLOCK (SCALED TO 120PX LIMIT) --- */
+        .signature-box {
+            margin-top: 4px;
+        }
+
+        .signature-frame {
+            height: 125px;
+            width: 280px;
+            margin-bottom: 2px;
+            vertical-align: bottom;
+        }
+
+        .footer-note {
+            margin-top: 15px;
+            text-align: center;
+            font-size: 8.5px;
+            color: #64748b;
+            border-top: 1px solid #e2e8f0;
+            padding-top: 8px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- MASTER HEADER -->
+    <table border="0" cellpadding="0" cellspacing="0">
+        <tr>
+            <td width="60%">
+                {% if logo_path %}
+                <div style="margin-bottom: 4px;">
+                    <img src="{{ logo_path }}" style="max-height: 60px; display: block;" alt="Logo">
+                </div>
+                {% endif %}
+                <!-- BRAND TITLE REMOVED: Redundant with logo graphic -->
+                <div class="brand-address">{{ supplier_address }}</div>
+            </td>
+            <td width="40%" style="vertical-align: top;">
+                <div class="document-title">INVOICE</div>
+                <div class="document-subtitle">Wholesale Supply Order</div>
+            </td>
+        </tr>
+    </table>
+
+    <!-- METADATA BANNER -->
+    <div class="meta-banner">
+        <table border="0" cellpadding="0" cellspacing="0">
+            <tr>
+                <td width="25%">
+                    <span class="meta-label">Invoice Number</span>
+                    <span class="meta-value">{{ inv_no }}</span>
+                </td>
+                <td width="25%">
+                    <span class="meta-label">Date Issued</span>
+                    <span class="meta-value">{{ date }}</span>
+                </td>
+                <td width="25%">
+                    <span class="meta-label">Payment Terms</span>
+                    <span class="meta-value">{{ payment_terms }}</span>
+                </td>
+                <td width="25%">
+                    <span class="meta-label">Total Packages</span>
+                    <span class="meta-value">{{ total_ctns }} CTNS</span>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <!-- BILL TO / CONSIGNEE SECTION -->
+    <table border="0" cellpadding="0" cellspacing="0" style="margin-bottom: 8px;">
+        <tr>
+            <td width="50%" style="padding-right: 15px;">
+                <div class="section-header">Bill To / Consignee</div>
+                <div class="client-card">
+                    <div style="font-weight: bold; font-size: 11px; color: #1e293b; margin-bottom: 2px;">
+                        {{ client_name }}
+                    </div>
+                    <div style="color: #475569; line-height: 1.4;">
+                        {{ client_address }}
+                    </div>
+                </div>
+            </td>
+            <td width="50%">
+                <!-- REPLACED OLD INSPECTION NOTE WITH CARGO NOTES PLACEMENT -->
+                <div class="section-header">Cargo Notes & Logistics</div>
+                <div style="color: #475569; font-size: 9.5px; line-height: 1.4; padding-top: 2px;">
+                    B/L Number: <strong>{{ bl }}</strong> &bull; Total Packages: <strong>{{ total_ctns }} CTNS</strong><br>
+                    <em>Cargo Notes:</em> All packing lists, item descriptions, and carton counts correspond directly to this commercial shipment manifest.
+                </div>
+            </td>
+        </tr>
+    </table>
+
+    <!-- LINE ITEMS MANIFEST (UPDATED COLUMN STRUCTURE) -->
+    <table class="manifest-table" border="0" cellpadding="0" cellspacing="0">
+        <thead>
+            <tr>
+                <th width="50%">Item Description</th>
+                <th class="text-center" width="15%">Qty-Pcs</th>
+                <th class="text-right" width="15%">Unit Price</th>
+                <th class="text-right" width="20%">Total (USD)</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in items %}
+            <tr>
+                <td style="font-weight: bold; color: #1e293b;">{{ item.Description }}</td>
+                <td class="text-center">{{ item.Qty }}</td>
+                <td class="text-right">${{ item.UnitPrice }}</td>
+                <td class="text-right" style="font-weight: bold; color: #2563eb;">${{ item.Total }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- TOTALS & SIGNATURE SUITE -->
+    <div class="summary-container">
+        <table border="0" cellpadding="0" cellspacing="0" style="width: 100%;">
+            <tr>
+                <!-- Left Column: Scaled Signature Suite -->
+                <td width="55%" style="padding-right: 20px; vertical-align: bottom;">
+                    <div class="signature-box">
+                        <div class="signature-frame">
+                            {% if sig_path %}
+                                <img src="{{ sig_path }}" style="max-height: 120px; display: inline-block;">
+                            {% endif %}
+                        </div>
+                        
+                        <div style="font-size: 8.5px; color: #64748b; margin-top: 4px;">
+                            <span style="font-style: italic;">Thank you for partnering with us!</span>
+                        </div>
+                    </div>
+                </td>
+                
+                <!-- Right Column: Financial Calculation -->
+                <td width="45%" style="vertical-align: top;">
+                    <table class="totals-table" border="0" cellpadding="0" cellspacing="0" style="width: 100%;">
+                        <tr>
+                            <td style="color: #64748b; font-weight: bold;">Subtotal:</td>
+                            <td class="text-right" style="font-weight: bold; color: #1e293b;">${{ subtotal }}</td>
+                        </tr>
+                        <tr>
+                            <td style="color: #64748b; font-weight: bold;">Freight / Logistics:</td>
+                            <td class="text-right" style="color: #1e293b;">${{ freight }}</td>
+                        </tr>
+                        <tr class="grand-total">
+                            <td>TOTAL DUE:</td>
+                            <td class="text-right">${{ grand_total }}</td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <!-- FOOTER -->
+    <div class="footer-note">
+        {{ supplier_name }} &bull; {{ supplier_address }} &bull; Wholesale Commercial Invoice
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <style>
+        /* --- TYPOGRAPHY ARTIFACT ERASURE --- */
+        @font-face {
+            font-family: 'OpenSans';
+            src: url('fonts/OpenSans-Regular.ttf');
+        }
+
+        /* --- CORE LETTER-PORTRAIT DOCUMENT GEOMETRY --- */
+        @page {
+            size: letter portrait;
+            margin: 0.25in;
+            background-image: url('{{ watermark_path }}');
+        }
+        
+        body {
+            font-family: 'OpenSans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            color: #111111; /* Stark Corporate Black */
+            margin: 0;
+            padding: 0;
+            font-size: 10px;
+            line-height: 1.3;
+            background-color: #ffffff;
+        }
+
+        /* --- STRUCTURAL LAYOUT COMPONENT CONTROLLERS --- */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 0;
+            padding: 0;
+        }
+        
+        td {
+            border: none;
+            padding: 0;
+            vertical-align: top;
+        }
+
+        /* Conservative Corporate Header Band */
+        .header-band {
+            padding: 10px 0 15px 0;
+            border-bottom: 2px solid #0A2540; /* Classic Corporate Navy Accent */
+            margin-bottom: 12px;
+        }
+
+        .company-header-title {
+            font-size: 20px;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            color: #0A2540; /* Navy Branding */
+            margin: 0;
+        }
+
+        .company-header-address {
+            font-size: 9px;
+            color: #444444;
+            margin-top: 4px;
+            line-height: 1.4;
+        }
+
+        .main-document-title {
+            font-size: 16px;
+            font-weight: bold;
+            color: #111111;
+            text-align: right;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        /* Architectural Section Subheaders */
+        .block-section-label {
+            font-size: 9px;
+            font-weight: bold;
+            color: #333333;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding-bottom: 3px;
+            border-bottom: 1px solid #111111;
+            margin-bottom: 6px;
+        }
+
+        .block-info-content {
+            font-size: 10px;
+            line-height: 1.4;
+            color: #111111;
+        }
+
+        .meta-data-subtable td {
+            padding: 3px 0;
+            font-size: 10px;
+        }
+
+        /* --- INSTITUTIONAL FREIGHT MANIFEST GRID --- */
+        thead {
+            display: table-header-group;
+        }
+
+        .manifest-grid-table {
+            margin-top: 15px;
+            margin-bottom: 15px;
+        }
+
+        .manifest-grid-table th {
+            background-color: #ffffff;
+            color: #111111;
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 9px;
+            padding: 6px 8px;
+            letter-spacing: 0.5px;
+            border-top: 2px solid #111111;
+            border-bottom: 1px solid #111111;
+            text-align: left;
+        }
+
+        .manifest-grid-table td {
+            padding: 6px 8px;
+            border-bottom: 1px solid #EAEAEA;
+            font-size: 10px;
+            vertical-align: middle;
+        }
+
+        .manifest-grid-table tr:nth-child(even) td {
+            background-color: #FAFAFA; /* Barely visible alternate row shading */
+        }
+
+        /* --- LOWER SUMMARY AND SIGNATORY FOOTER BLOCK --- */
+        .lower-frame-layout {
+            margin-top: 10px;
+            page-break-inside: avoid;
+        }
+
+        .signature-bounding-box {
+            border: 1px solid #111111; /* Strict legal border */
+            background-color: #ffffff; 
+            padding: 10px;
+            margin-right: 25px;
+        }
+
+        .signature-box-title {
+            font-size: 9px;
+            text-transform: uppercase;
+            color: #111111;
+            font-weight: 700;
+            margin-bottom: 8px;
+            letter-spacing: 0.5px;
+        }
+
+        .signatory-legal-declaration {
+            font-size: 8px;
+            color: #555555;
+            line-height: 1.3;
+            font-style: italic;
+            margin-top: 5px;
+        }
+
+        .financials-summary-table td {
+            padding: 5px 8px;
+            border-bottom: 1px solid #EAEAEA;
+            font-size: 10.5px;
+        }
+
+        .financials-summary-table tr.grand-total-highlight-row td {
+            background-color: #ffffff;
+            color: #111111;
+            font-weight: 700;
+            border-top: 3px double #111111; /* Classic financial double-line */
+            font-size: 12px;
+            padding: 8px 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header-band">
+        <table>
+            <tr>
+                <td style="width: 50%; vertical-align: bottom;">
+                    <table>
+                        <tr>
+                            {% if logo_path %}
+                            <td style="padding-right: 12px; vertical-align: bottom; width: 60px;">
+                                <img src="{{ logo_path }}" style="max-height: 40px; width: auto; display: block;">
+                            </td>
+                            {% endif %}
+                            <td style="vertical-align: bottom; text-align: left;">
+                                <div class="company-header-title">{{ supplier_name }}</div>
+                                <div class="company-header-address">{{ supplier_address }}</div>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+                <td style="width: 50%; text-align: right; vertical-align: bottom;">
+                    <div class="main-document-title">{{ title }} &amp; FREIGHT MANIFEST</div>
+                    <div style="font-size: 9px; font-weight: bold; color: #0A2540; margin-top: 5px; letter-spacing: 1px; text-transform: uppercase;">
+                        LOGISTICS &amp; EXPORT
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <table style="margin-bottom: 15px;">
+        <tr>
+            <td style="width: 48%;">
+                <div class="block-section-label">CONSIGNEE / BILL TO</div>
+                <div class="block-info-content">
+                    <strong>{{ client_name }}</strong><br>
+                    {{ client_address }}
+                </div>
+            </td>
+            
+            <td style="width: 4%;"></td>
+            
+            <td style="width: 48%;">
+                <div class="block-section-label">TRANSACTION RECORD</div>
+                <div class="block-info-content">
+                    <table class="meta-data-subtable">
+                        <tr>
+                            <td style="width: 40%; font-weight: bold;">Invoice No:</td>
+                            <td><strong>{{ inv_no }}</strong></td>
+                        </tr>
+                        <tr>
+                            <td style="font-weight: bold;">Date of Issue:</td>
+                            <td>{{ date }}</td>
+                        </tr>
+                        <tr>
+                            <td style="font-weight: bold;">Payment Terms:</td>
+                            <td>{{ payment_terms }}</td>
+                        </tr>
+                        <tr>
+                            <td style="font-weight: bold;">Incoterm Matrix:</td>
+                            <td>CIF - Cost, Insurance &amp; Freight</td>
+                        </tr>
+                        {% if bl %}
+                        <tr>
+                            <td style="font-weight: bold;">B/L Reference:</td>
+                            <td><strong>{{ bl }}</strong></td>
+                        </tr>
+                        {% endif %}
+                    </table>
+                </div>
+            </td>
+        </tr>
+    </table>
+
+    <table class="manifest-grid-table">
+        <thead>
+            <tr>
+                <th style="width: 60%;">DESCRIPTION OF FREIGHT/GOODS</th>
+                <th style="width: 12%; text-align: center;">CARTONS</th>
+                <th style="width: 13%; text-align: right;">UNIT PRICE</th>
+                <th style="width: 15%; text-align: right;">TOTAL VALUE</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in items %}
+            <tr>
+                <td style="font-weight: bold;">{{ item.Description }}</td>
+                <td style="text-align: center;">{{ item.Qty }}</td>
+                <td style="text-align: right;">${{ item.UnitPrice }}</td>
+                <td style="text-align: right; font-weight: bold;">${{ item.Total }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <table class="lower-frame-layout">
+        <tr>
+            <td style="width: 52%;">
+                <div class="signature-bounding-box">
+                    <div class="signature-box-title">Authorized Signatory Declaration</div>
+                    <div style="padding-top: 5px; padding-bottom: 5px; border-bottom: 1px solid #EAEAEA;">
+                        {% if sig_path %}
+                            <img src="{{ sig_path }}" style="height: 40px; width: auto; display: block;">
+                        {% else %}
+                            <div style="height: 40px;"></div>
+                        {% endif %}
+                    </div>
+                    <div class="signatory-legal-declaration">
+                        I hereby certify that this invoice manifest configuration accurately details the actual contents, value, and structural parameters of the designated cargo.
+                    </div>
+                    <div style="font-size: 9.5px; font-weight: bold; margin-top: 8px; color: #111111;">
+                        {{ signatory_position if signatory_position else "Authorized Director" }}
+                    </div>
+                </div>
+            </td>
+            
+            <td style="width: 48%;">
+                <table class="financials-summary-table">
+                    <tr>
+                        <td style="width: 55%; font-weight: bold; color: #333333;">Total Cartons:</td>
+                        <td style="text-align: right; font-weight: bold;">{{ total_ctns }} CTNS</td>
+                    </tr>
+                    <tr>
+                        <td style="color: #333333;">Subtotal Value:</td>
+                        <td style="text-align: right;">${{ subtotal }}</td>
+                    </tr>
+                    <tr>
+                        <td style="color: #333333;">Ocean Freight Charges:</td>
+                        <td style="text-align: right;">${{ freight if freight else "0.00" }}</td>
+                    </tr>
+                    <tr class="grand-total-highlight-row">
+                        <td>GRAND TOTAL:</td>
+                        <td style="text-align: right;">${{ grand_total }} USD</td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+
+</body>
+</html>

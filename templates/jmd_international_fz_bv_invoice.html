@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <style>
+        /* CORE PAGE GEOMETRY - LETTER PORTRAIT */
+        @page {
+            size: letter portrait;
+            margin: 15mm;
+        }
+        
+        /* TYPOGRAPHY OVERRIDE - BYPASSES PDF RENDER ARTIFACTS */
+        @font-face {
+            font-family: 'OpenSans';
+            src: url('OpenSans.ttf') format('truetype');
+        }
+        
+        body {
+            font-family: 'OpenSans', Helvetica, sans-serif;
+            font-size: 10pt;
+            color: #333333;
+            line-height: 1.3;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* STRICT LEGACY TABLE RESET */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            border-spacing: 0;
+            margin-bottom: 10px;
+        }
+        th, td {
+            padding: 5px 8px;
+            vertical-align: top;
+            text-align: left;
+        }
+
+        /* HEADER SPLITTING & ORPHAN PREVENTION */
+        thead {
+            display: table-header-group;
+        }
+        .avoid-break {
+            page-break-inside: avoid;
+        }
+
+        /* DESIGN ARCHETYPE: STRUCTURAL MINIMAL */
+        .header-title {
+            color: #333333;
+            font-size: 22pt;
+            font-weight: bold;
+            margin: 0 0 5px 0;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .header-subtitle {
+            color: #777777;
+            font-size: 9pt;
+            margin-bottom: 15px;
+        }
+        
+        .invoice-title {
+            color: #004A8F;
+            font-size: 24pt;
+            font-weight: normal;
+            margin: 0 0 10px 0;
+            text-align: right;
+            letter-spacing: 3px;
+        }
+
+        .meta-box {
+            border: 1px solid #004A8F;
+        }
+        .meta-box td {
+            padding: 4px 8px;
+        }
+        .meta-label {
+            color: #004A8F;
+            font-weight: bold;
+            font-size: 8pt;
+            text-transform: uppercase;
+            border-right: 1px solid #eeeeee;
+        }
+
+        .section-divider {
+            border-bottom: 2px solid #004A8F;
+            margin-bottom: 10px;
+        }
+        .section-label {
+            font-weight: bold;
+            font-size: 8pt;
+            color: #004A8F;
+            text-transform: uppercase;
+            padding-bottom: 2px;
+        }
+
+        /* DATA MANIFEST STYLING */
+        .manifest-head th {
+            border-bottom: 2px solid #333333;
+            color: #333333;
+            font-weight: bold;
+            font-size: 8pt;
+            text-transform: uppercase;
+            padding-bottom: 8px;
+        }
+        .manifest-row td {
+            border-bottom: 1px solid #eeeeee;
+            padding: 6px 8px;
+        }
+
+        /* FINANCIALS */
+        .total-row td {
+            padding: 5px 8px;
+        }
+        .total-label {
+            text-align: right;
+            color: #777777;
+        }
+        .total-value {
+            text-align: right;
+            font-weight: bold;
+        }
+        .grand-total-row td {
+            border-top: 2px solid #004A8F;
+            border-bottom: 2px solid #004A8F;
+            color: #004A8F;
+            font-size: 12pt;
+            font-weight: bold;
+            padding: 8px 8px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ASYMMETRIC HEADER SEGMENT -->
+    <table>
+        <tr>
+            <td style="width: 55%; padding-left: 0;">
+                <h1 class="header-title">{{ supplier_name }}</h1>
+                <div class="header-subtitle">{{ supplier_address }}</div>
+            </td>
+            <td style="width: 45%; padding-right: 0; vertical-align: top;">
+                <h2 class="invoice-title">INVOICE</h2>
+                <table class="meta-box">
+                    <tr>
+                        <td class="meta-label" style="width: 40%;">Invoice No</td>
+                        <td style="width: 60%; text-align: right;"><strong>{{ inv_no }}</strong></td>
+                    </tr>
+                    <tr>
+                        <td class="meta-label">Date</td>
+                        <td style="text-align: right;">{{ date }}</td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+
+    <div class="section-divider"></div>
+
+    <!-- CLEAN LOGISTICS & ENTITY SPLIT -->
+    <table>
+        <tr>
+            <!-- CLIENT BLOCK -->
+            <td style="width: 48%; padding-left: 0;">
+                <div class="section-label">Billed To</div>
+                <div style="min-height: 50px; padding-top: 4px; line-height: 1.4;">
+                    <strong>{{ client_name }}</strong><br>
+                    {{ client_address }}
+                </div>
+            </td>
+            <!-- GUTTER -->
+            <td style="width: 4%;"></td>
+            <!-- SHIPPING BLOCK -->
+            <td style="width: 48%; padding-right: 0;">
+                <div class="section-label">Shipping Reference</div>
+                <table style="margin-top: 4px;">
+                    <tr>
+                        <td style="padding: 2px 0; color: #777777; font-size: 9pt;">B/L No:</td>
+                        <td style="padding: 2px 0; font-weight: bold;">{{ bl }}</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 2px 0; color: #777777; font-size: 9pt;">Terms:</td>
+                        <td style="padding: 2px 0; font-weight: bold;">{{ payment_terms }}</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 2px 0; color: #777777; font-size: 9pt;">Cartons:</td>
+                        <td style="padding: 2px 0; font-weight: bold;">{{ total_ctns }}</td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+
+    <div style="height: 10px;"></div>
+
+    <!-- MAIN MANIFEST TABLE -->
+    <table>
+        <thead class="manifest-head">
+            <tr>
+                <th style="width: 50%;">Description</th>
+                <th style="width: 15%; text-align: center;">Qty</th>
+                <th style="width: 15%; text-align: right;">Unit Price</th>
+                <th style="width: 20%; text-align: right;">Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in items %}
+            <tr class="manifest-row">
+                <td>{{ item.Description }}</td>
+                <td style="text-align: center;">{{ item.Qty }}</td>
+                <td style="text-align: right;">${{ item.UnitPrice }}</td>
+                <td style="text-align: right;">${{ item.Total }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- TOTALS & SIGNATURE SEGMENT (ORPHAN PROTECTED) -->
+    <div class="avoid-break">
+        <table style="margin-top: 8px;">
+            <tr>
+                <td style="width: 55%; padding-left: 0; vertical-align: bottom;">
+                    <!-- STRICT SIGNATURE BLOCK WITH ENLARGED HEIGHT ENFORCEMENT -->
+                    <table style="width: 85%;">
+                        <tr>
+                            <td style="border-bottom: 1px solid #333333; vertical-align: bottom; padding: 0 0 5px 0; height: 125px;">
+                                <div class="signature-frame">
+                                    {% if sig_path %}
+                                        <!-- Height explicitly increased to 120px to allow realistic stamp scaling without forcing a straight edge -->
+                                        <img src="{{ sig_path }}" height="120" style="height: 120px; width: auto; display: inline-block;">
+                                    {% else %}
+                                        <div style="height: 120px;"></div>
+                                    {% endif %}
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="font-size: 8pt; padding: 5px 0 0 0; color: #777777; line-height: 1.4;">
+                                AUTHORIZED SIGNATURE<br>
+                                <strong style="color: #004A8F;">{{ signatory_position }}</strong><br>
+                                {{ supplier_name }}
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+                <td style="width: 45%; padding-right: 0; vertical-align: bottom;">
+                    <!-- FINANCIAL SUMMARY -->
+                    <table>
+                        <tr class="total-row">
+                            <td class="total-label" style="width: 50%;">Subtotal</td>
+                            <td class="total-value" style="width: 50%;">${{ subtotal }}</td>
+                        </tr>
+                        <tr class="total-row">
+                            <td class="total-label">Freight</td>
+                            <td class="total-value">${{ freight }}</td>
+                        </tr>
+                        <tr class="grand-total-row">
+                            <td style="text-align: right;">Grand Total</td>
+                            <td style="text-align: right;">${{ grand_total }}</td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+</body>
+</html>

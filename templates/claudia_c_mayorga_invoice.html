@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Commercial Invoice - {{ supplier_name }}</title>
+<style>
+    @page {
+        size: letter portrait;
+        margin: 20px 25px 20px 25px;
+    }
+
+    @font-face {
+        font-family: 'OpenSans';
+        src: url('OpenSans.ttf');
+    }
+
+    body {
+        font-family: 'OpenSans', Arial, sans-serif;
+        font-size: 8.5pt;
+        color: #1E293B;
+        line-height: 1.25;
+        margin: 0;
+        padding: 0;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 0;
+        padding: 0;
+    }
+
+    /* Structural Spacers */
+    .spacer-sm {
+        height: 6px;
+    }
+    .spacer-md {
+        height: 10px;
+    }
+
+    /* Header Block - Pure Table Layout */
+    .header-table {
+        border-bottom: 2px solid #1E293B;
+        padding-bottom: 8px;
+    }
+    .company-title {
+        font-size: 16pt;
+        font-weight: bold;
+        color: #1E293B;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin: 0 0 3px 0;
+    }
+    .company-address {
+        font-size: 8pt;
+        color: #475569;
+        line-height: 1.2;
+    }
+    .invoice-title {
+        font-size: 17pt;
+        font-weight: bold;
+        color: #1E293B;
+        text-align: right;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin: 0 0 3px 0;
+    }
+    .invoice-meta {
+        font-size: 8.5pt;
+        text-align: right;
+        color: #475569;
+    }
+    .invoice-meta strong {
+        color: #1E293B;
+    }
+
+    /* Address & Dispatch Grid */
+    .panel-box {
+        background-color: #F8FAFC;
+        border: 1px solid #E2E8F0;
+        padding: 6px 8px;
+    }
+    .panel-header {
+        font-size: 7.5pt;
+        font-weight: bold;
+        text-transform: uppercase;
+        color: #64748B;
+        border-bottom: 1px solid #CBD5E1;
+        padding-bottom: 3px;
+        margin-bottom: 4px;
+    }
+    .panel-body {
+        font-size: 8pt;
+        color: #1E293B;
+        line-height: 1.2;
+    }
+
+    /* Product Line Items Table */
+    .items-table {
+        margin-top: 8px;
+        border: 1px solid #CBD5E1;
+    }
+    .items-table thead {
+        display: table-header-group;
+    }
+    .items-table th {
+        background-color: #1E293B;
+        color: #FFFFFF;
+        font-size: 8pt;
+        font-weight: bold;
+        text-transform: uppercase;
+        letter-spacing: 0.3px;
+        padding: 6px 6px;
+        border: 1px solid #1E293B;
+    }
+    .items-table td {
+        padding: 5px 6px;
+        font-size: 8pt;
+        border-bottom: 1px solid #E2E8F0;
+        border-right: 1px solid #E2E8F0;
+        border-left: 1px solid #E2E8F0;
+    }
+    .col-desc {
+        text-align: left;
+    }
+    .col-qty {
+        text-align: center;
+    }
+    .col-price {
+        text-align: right;
+    }
+    .col-total {
+        text-align: right;
+    }
+
+    /* Summary & Sign-off Segment */
+    .footer-container {
+        page-break-inside: avoid;
+        margin-top: 8px;
+    }
+    .totals-table {
+        border-collapse: collapse;
+    }
+    .totals-table td {
+        padding: 4px 6px;
+        font-size: 8pt;
+    }
+    .total-label {
+        text-align: right;
+        color: #475569;
+        font-weight: normal;
+    }
+    .total-val {
+        text-align: right;
+        color: #1E293B;
+        font-weight: bold;
+    }
+    .grand-total-row td {
+        border-top: 1px solid #1E293B;
+        border-bottom: 2px solid #1E293B;
+        font-size: 9pt;
+        font-weight: bold;
+        color: #1E293B;
+        background-color: #F1F5F9;
+    }
+
+    .signature-frame {
+        height: 42px;
+        margin: 2px 0;
+    }
+    .signature-caption {
+        border-top: 1px solid #94A3B8;
+        padding-top: 3px;
+        margin-top: 2px;
+        font-size: 7.5pt;
+        color: #475569;
+    }
+</style>
+</head>
+<body>
+
+    <!-- Header Section -->
+    <table class="header-table">
+        <tr>
+            <td width="55%" style="vertical-align: top;">
+                {% if logo_path %}
+                    <img src="{{ logo_path }}" style="max-height: 38px; margin-bottom: 4px;"><br>
+                {% endif %}
+                <div class="company-title">{{ supplier_name }}</div>
+                <div class="company-address">{{ supplier_address }}</div>
+            </td>
+            <td width="45%" style="vertical-align: top;">
+                <div class="invoice-title">Commercial Invoice</div>
+                <div class="invoice-meta">
+                    <strong>Invoice No:</strong> {{ inv_no }}<br>
+                    <strong>Date:</strong> {{ date }}<br>
+                    <strong>Payment Terms:</strong> {{ payment_terms }}
+                </div>
+            </td>
+        </tr>
+    </table>
+
+    <div class="spacer-sm"></div>
+
+    <!-- Client & Shipment Details Grid -->
+    <table>
+        <tr>
+            <td width="49%" style="vertical-align: top;">
+                <div class="panel-box">
+                    <div class="panel-header">Consignee / Sold To</div>
+                    <div class="panel-body">
+                        <strong>{{ client_name }}</strong><br>
+                        {{ client_address }}
+                    </div>
+                </div>
+            </td>
+            <td width="2%"></td>
+            <td width="49%" style="vertical-align: top;">
+                <div class="panel-box">
+                    <div class="panel-header">Transport & Manifest Details</div>
+                    <div class="panel-body">
+                        <strong>Bill of Lading:</strong> {{ bl }}<br>
+                        <strong>Total Packages / Ctns:</strong> {{ total_ctns }}<br>
+                        <strong>Origin:</strong> Fullerton, CA, United States
+                    </div>
+                </div>
+            </td>
+        </tr>
+    </table>
+
+    <!-- Product Line Items Table -->
+    <table class="items-table">
+        <thead>
+            <tr>
+                <th width="54%" style="text-align: left;">Item Description</th>
+                <th width="14%" style="text-align: center;">Quantity</th>
+                <th width="16%" style="text-align: right;">Unit Price</th>
+                <th width="16%" style="text-align: right;">Total Amount</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in items %}
+            <tr>
+                <td class="col-desc">{{ item.Description }}</td>
+                <td class="col-qty">{{ item.Qty }}</td>
+                <td class="col-price">${{ item.UnitPrice }}</td>
+                <td class="col-total">${{ item.Total }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- Footer Summary & Signature Block (Orphan-Safe) -->
+    <div class="footer-container">
+        <table>
+            <tr>
+                <!-- Signature Block -->
+                <td width="50%" style="vertical-align: bottom; padding-right: 15px;">
+                    <div style="font-size: 7.5pt; font-weight: bold; text-transform: uppercase; color: #64748B; margin-bottom: 2px;">
+                        Authorized Signatory & Declaration
+                    </div>
+                    <div class="signature-frame">
+                        {% if sig_path %}
+                            <img src="{{ sig_path }}" style="max-height: 40px; display: inline-block;">
+                        {% endif %}
+                    </div>
+                    <div class="signature-caption">
+                        <strong>{{ supplier_name }}</strong><br>
+                        {{ signatory_position }}
+                    </div>
+                </td>
+
+                <!-- Totals Calculation Block -->
+                <td width="50%" style="vertical-align: top;">
+                    <table class="totals-table">
+                        <tr>
+                            <td class="total-label" width="60%">Subtotal:</td>
+                            <td class="total-val" width="40%">${{ subtotal }}</td>
+                        </tr>
+                        <tr>
+                            <td class="total-label">Freight & Handling:</td>
+                            <td class="total-val">${{ freight }}</td>
+                        </tr>
+                        <tr class="grand-total-row">
+                            <td class="total-label" style="font-weight: bold; color: #1E293B;">Grand Total:</td>
+                            <td class="total-val">${{ grand_total }}</td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+</body>
+</html>

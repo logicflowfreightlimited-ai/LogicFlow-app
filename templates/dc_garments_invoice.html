@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>High-Fashion Editorial Canvas - DC Garments</title>
+    <style>
+        /* --- OPTIMIZED DOCUMENT GEOMETRY WITH BACKGROUND WATERMARK --- */
+        @page {
+            size: letter portrait;
+            margin: 0.25in;
+            background-image: url('{{ watermark_path }}');
+        }
+        
+        body {
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+            color: #111111;
+            margin: 0;
+            padding: 0;
+            font-size: 9.5pt;
+            line-height: 1.4;
+            background-color: #ffffff;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 0;
+            padding: 0;
+        }
+        
+        td {
+            padding: 0;
+            vertical-align: top;
+        }
+        
+        /* Stark Typographic Weights & Trimmed Luxury Spacing */
+        .editorial-brand {
+            font-size: 28pt;
+            font-weight: 300;
+            letter-spacing: 6px;
+            color: #000000;
+            text-transform: uppercase;
+            line-height: 1;
+        }
+        
+        .editorial-brand-bold {
+            font-weight: 900;
+            letter-spacing: 2px;
+        }
+        
+        .editorial-address {
+            font-size: 8.5pt;
+            font-weight: 400;
+            letter-spacing: 1px;
+            color: #555555;
+            line-height: 1.4;
+            margin-top: 6px;
+            text-transform: uppercase;
+        }
+        
+        .document-meta-title {
+            font-size: 24pt;
+            font-weight: 900;
+            letter-spacing: 4px;
+            color: #111111;
+            text-transform: uppercase;
+            text-align: right;
+            line-height: 1;
+        }
+        
+        /* Trimmed Architectural Double Rules */
+        .double-rule-top {
+            border-top: 3px solid #111111;
+            border-bottom: 1px solid #111111;
+            height: 3px;
+            margin-top: 10px;
+            margin-bottom: 12px;
+        }
+        
+        .single-rule-accent {
+            border-top: 1px solid #111111;
+            margin-top: 8px;
+            margin-bottom: 8px;
+        }
+        
+        .double-rule-bottom {
+            border-top: 1px solid #111111;
+            border-bottom: 2px solid #111111;
+            height: 2px;
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+        
+        /* Structural Data Labels */
+        .label-stark {
+            font-size: 7.5pt;
+            text-transform: uppercase;
+            font-weight: 900;
+            letter-spacing: 1.5px;
+            color: #111111;
+            padding-bottom: 3px;
+        }
+        
+        .value-stark {
+            font-size: 9.5pt;
+            font-weight: 300;
+            color: #333333;
+            margin-bottom: 8px;
+            line-height: 1.4;
+        }
+        
+        /* Open Frame Data Grid with Trimmed Padding */
+        thead {
+            display: table-header-group;
+        }
+        
+        .open-frame-grid th {
+            color: #000000;
+            font-size: 8.5pt;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            padding: 8px 4px;
+            text-align: left;
+            border-bottom: 1px solid #111111;
+        }
+        
+        .open-frame-grid td {
+            padding: 7px 4px;
+            font-size: 9pt;
+            font-weight: 400;
+            border-bottom: 1px solid #e5e5e5;
+            color: #222222;
+        }
+        
+        .table-viewport-box {
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+        
+        /* Bound Summary Mechanics Element Atomically */
+        .summary-atomic-block {
+            page-break-inside: avoid;
+            margin-top: 10px;
+        }
+        
+        .totals-ledger-table td {
+            padding: 4px 0;
+            font-size: 9.5pt;
+            color: #333333;
+        }
+        
+        .totals-ledger-table .grand-total-line td {
+            padding: 8px 0 0 0;
+            font-size: 13pt;
+            font-weight: 900;
+            color: #000000;
+            border-top: 2px solid #111111;
+        }
+    </style>
+</head>
+<body>
+
+    <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+            <td>
+                
+                <table cellpadding="0" cellspacing="0" border="0">
+                    <tr>
+                        <td width="65%">
+                            {% if logo_path %}
+                            <img src="{{ logo_path }}" alt="DC GARMENTS" style="max-width: 280px; height: auto; display: block;" />
+                            {% else %}
+                            <div class="editorial-brand">DC <span class="editorial-brand-bold">GARMENTS</span></div>
+                            {% endif %}
+                            <div class="editorial-address">
+                                Dilkap Chambers Unit No.212B<br />
+                                Veera Desai Road Andheri-W<br />
+                                Mumbai 400053
+                            </div>
+                        </td>
+                        <td width="35%" align="right" style="vertical-align: bottom;">
+                            <div class="document-meta-title">INVOICE</div>
+                            <div style="font-size: 8.5pt; font-weight: 300; text-transform: uppercase; letter-spacing: 2px; color: #666666; text-align: right; margin-top: 5px;">
+                                Ready-Made Export Manifest
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+
+                <div class="double-rule-top"></div>
+
+                <table cellpadding="0" cellspacing="0" border="0">
+                    <tr>
+                        <td width="38%">
+                            <div class="label-stark">Shipper / Exporter</div>
+                            <div class="value-stark">
+                                <strong style="font-weight:700; color:#000;">{{ supplier_name }}</strong><br />
+                                {{ supplier_address }}
+                            </div>
+                        </td>
+                        <td width="38%">
+                            <div class="label-stark">Consignee / Importer</div>
+                            <div class="value-stark">
+                                <strong style="font-weight:700; color:#000;">{{ client_name }}</strong><br />
+                                {{ client_address }}
+                            </div>
+                        </td>
+                        <td width="24%" align="right">
+                            <table cellpadding="0" cellspacing="0" border="0" align="right">
+                                <tr>
+                                    <td align="right">
+                                        <div class="label-stark">Invoice No.</div>
+                                        <div class="value-stark" style="font-weight: 700; color: #000000;">{{ inv_no }}</div>
+                                        
+                                        <div class="label-stark">Date of Issue</div>
+                                        <div class="value-stark">{{ date }}</div>
+                                        
+                                        <div class="label-stark">Payment Terms</div>
+                                        <div class="value-stark">{{ payment_terms }}</div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+
+                <div class="single-rule-accent"></div>
+
+                <table cellpadding="4" cellspacing="0" border="0" style="margin-bottom: 10px;">
+                    <tr>
+                        <td width="65%">
+                            <span class="label-stark" style="display:inline;">Transport Routing:</span>
+                            <span style="font-size: 9pt; font-weight: 300; color: #222222; margin-left: 8px;">{{ bl }}</span>
+                        </td>
+                        <td width="35%" align="right">
+                            <span class="label-stark" style="display:inline;">Volume Weight:</span>
+                            <span style="font-size: 9pt; font-weight: 700; color: #000000; margin-left: 8px;">{{ total_ctns }} CTNS</span>
+                        </td>
+                    </tr>
+                </table>
+
+                <div class="table-viewport-box">
+                    <table class="open-frame-grid" cellpadding="0" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th width="60%">DESCRIPTION</th>
+                                <th width="12%" align="center" style="text-align: center;">QTY</th>
+                                <th width="13%" align="right" style="text-align: right;">UNIT COST</th>
+                                <th width="15%" align="right" style="text-align: right;">TOTAL</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in items %}
+                            <tr>
+                                <td style="font-weight: 700; color: #000;">
+                                    {{ item.Description }}
+                                </td>
+                                <td align="center" style="text-align: center;">{{ item.Qty }}</td>
+                                <td align="right" style="text-align: right;">${{ item.UnitPrice }}</td>
+                                <td align="right" style="text-align: right; font-weight: 700;">${{ item.Total }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="summary-atomic-block">
+                    <table cellpadding="0" cellspacing="0" border="0">
+                        <tr>
+                            <td width="55%">
+                                <table cellpadding="0" cellspacing="0" border="0" style="margin-top: 10px;">
+                                    <tr>
+                                        <td>
+                                            <div class="label-stark">Authorized Corporate Signatory</div>
+                                            <div style="padding-top: 5px; padding-bottom: 5px; border-bottom: 1px solid #111111; width: 240px;">
+                                                {% if sig_path %}
+                                                <img src="{{ sig_path }}" alt="Signature Matrix" style="height: 48px; width: auto; display: block;" />
+                                                {% else %}
+                                                <div style="height: 48px;"></div>
+                                                {% endif %}
+                                            </div>
+                                            <div style="font-size: 10pt; font-weight: 700; margin-top: 8px; color: #000000; letter-spacing: 0.5px;">Amit Sharma</div>
+                                            <div style="font-size: 7.5pt; color: #666666; text-transform: uppercase; letter-spacing: 1px; margin-top: 2px;">{{ signatory_position }}</div>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                            
+                            <td width="45%">
+                                <table class="totals-ledger-table" cellpadding="0" cellspacing="0" border="0">
+                                    <tr>
+                                        <td style="font-size: 8.5pt; font-weight: 900; text-transform: uppercase; letter-spacing: 1px;">Subtotal Base</td>
+                                        <td align="right" style="text-align: right; font-weight: 300;">${{ subtotal }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="font-size: 8.5pt; font-weight: 900; text-transform: uppercase; letter-spacing: 1px;">Freight &amp; Handling</td>
+                                        <td align="right" style="text-align: right; font-weight: 300;">${{ freight }}</td>
+                                    </tr>
+                                    <tr class="grand-total-line">
+                                        <td style="letter-spacing: 1px;">GRAND TOTAL DUE</td>
+                                        <td align="right" style="text-align: right;">${{ grand_total }}</td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+                    
+                    <div class="double-rule-bottom"></div>
+                </div>
+
+            </td>
+        </tr>
+    </table>
+
+</body>
+</html>

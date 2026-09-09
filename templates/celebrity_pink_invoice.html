@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Boutique Editorial Canvas - Celebrity Pink</title>
+    <style>
+        /* --- CORE DOCUMENT GEOMETRY WITH COMPLIANT BACKING WATERMARK --- */
+        @page {
+            size: letter portrait;
+            margin: 0.4in;
+            background-image: url('{{ watermark_path }}');
+        }
+        
+        body {
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+            color: #333333;
+            margin: 0;
+            padding: 0;
+            font-size: 9.5pt;
+            line-height: 1.4;
+            background-color: #ffffff;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 0;
+            padding: 0;
+        }
+        
+        td {
+            padding: 0;
+            vertical-align: top;
+        }
+        
+        /* Center-Aligned Editorial Header elements */
+        .header-container {
+            text-align: center;
+            padding-bottom: 5px;
+        }
+        
+        .editorial-subtitle {
+            font-size: 9pt;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #666666;
+            margin-top: 8px;
+            text-align: center;
+        }
+        
+        .doc-type-title {
+            font-size: 22pt;
+            font-weight: 300;
+            color: #999999;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-top: 5px;
+        }
+        
+        .rule-heavy {
+            border-top: 2px solid #555555;
+            margin-top: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .rule-light {
+            border-top: 1px solid #dcdcdc;
+            margin-top: 8px;
+            margin-bottom: 8px;
+        }
+        
+        .meta-label {
+            font-size: 7.5pt;
+            text-transform: uppercase;
+            font-weight: bold;
+            letter-spacing: 0.8px;
+            color: #777777;
+            padding-bottom: 3px;
+        }
+        
+        .meta-value {
+            font-size: 9.5pt;
+            color: #333333;
+            margin-bottom: 8px;
+        }
+        
+        /* Multi-page Header Continuity */
+        thead {
+            display: table-header-group;
+        }
+        
+        /* Clean Grayscale Table Headers */
+        .item-table th {
+            color: #222222;
+            font-size: 9pt;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            padding: 10px 6px;
+            text-align: left;
+            border-top: 2px solid #666666;
+            border-bottom: 2px solid #666666;
+        }
+        
+        .item-table td {
+            padding: 10px 6px;
+            font-size: 9pt;
+            border-bottom: 1px solid #e5e5e5;
+            color: #444444;
+        }
+        
+        /* Alternating Row Tints */
+        .item-table tr:nth-child(even) td {
+            background-color: #fcfcfc;
+        }
+        
+        /* Bound summary balances together atomically */
+        .summary-container {
+            page-break-inside: avoid;
+            margin-top: 20px;
+        }
+        
+        .total-box {
+            background-color: #fafafa;
+            padding: 12px;
+            border: 1px solid #e0e0e0;
+            border-top: 2px solid #666666;
+        }
+        
+        .total-row td {
+            padding: 4px 0;
+            font-size: 9.5pt;
+            color: #555555;
+        }
+        
+        .grand-total-row td {
+            padding: 8px 0 0 0;
+            font-size: 12pt;
+            font-weight: bold;
+            color: #222222;
+            border-top: 1px dashed #cccccc;
+        }
+    </style>
+</head>
+<body>
+
+    <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+            <td>
+                <div class="header-container">
+                    {% if logo_path %}
+                    <div style="display: block; margin: 0 auto; text-align: center;">
+                        <img src="{{ logo_path }}" alt="CELEBRITY PINK" style="max-width: 280px; height: auto; display: inline-block;" />
+                    </div>
+                    {% endif %}
+                    <div class="editorial-subtitle">Wholesale Teen Accessories &amp; Clothes</div>
+                    <div class="doc-type-title">INVOICE</div>
+                </div>
+
+                <div class="rule-heavy"></div>
+
+                <table cellpadding="0" cellspacing="0" border="0">
+                    <tr>
+                        <td width="38%">
+                            <div class="meta-label">Shipper / Vendor</div>
+                            <div class="meta-value">
+                                <strong>{{ supplier_name }}</strong><br />
+                                {{ supplier_address }}
+                            </div>
+                        </td>
+                        <td width="38%">
+                            <div class="meta-label">Consignee / Ship To</div>
+                            <div class="meta-value">
+                                <strong>{{ client_name }}</strong><br />
+                                {{ client_address }}
+                            </div>
+                        </td>
+                        <td width="24%" align="right">
+                            <table cellpadding="0" cellspacing="0" border="0" align="right">
+                                <tr>
+                                    <td align="right">
+                                        <div class="meta-label">Invoice No.</div>
+                                        <div class="meta-value" style="font-weight: bold; color: #222222;">{{ inv_no }}</div>
+                                        
+                                        <div class="meta-label">Date</div>
+                                        <div class="meta-value">{{ date }}</div>
+                                        
+                                        <div class="meta-label">Terms</div>
+                                        <div class="meta-value">{{ payment_terms }}</div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+
+                <div class="rule-light"></div>
+
+                <table cellpadding="6" cellspacing="0" border="0" style="background-color: #f9f9f9; margin-bottom: 15px; border-left: 3px solid #666666;">
+                    <tr>
+                        <td width="65%">
+                            <span class="meta-label" style="display:inline; color: #555555;">Shipping Method:</span>
+                            <span style="font-size: 8.5pt; color: #333333; margin-left: 6px;">MAJESTIC FREIGHT FORWARDERS SERVICE, 2440 Artesia Ave Fullerton CA 92833 USA</span>
+                        </td>
+                        <td width="35%" align="right">
+                            <span class="meta-label" style="display:inline; color: #555555;">Bill of Lading:</span>
+                            <span style="font-size: 8.5pt; font-weight: bold; color: #333333; margin-left: 6px;">{{ bl }}</span>
+                        </td>
+                    </tr>
+                </table>
+
+                <table class="item-table" cellpadding="0" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th width="60%">DESCRIPTION</th>
+                            <th width="12%" align="center" style="text-align: center;">QTY</th>
+                            <th width="13%" align="right" style="text-align: right;">UNIT COST</th>
+                            <th width="15%" align="right" style="text-align: right;">TOTAL</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in items %}
+                        <tr>
+                            <td width="60%">{{ item.Description }}</td>
+                            <td width="12%" align="center" style="text-align: center;">{{ item.Qty }}</td>
+                            <td width="13%" align="right" style="text-align: right;">${{ item.UnitPrice }}</td>
+                            <td width="15%" align="right" style="text-align: right;">${{ item.Total }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+
+                <div class="summary-container">
+                    <table cellpadding="0" cellspacing="0" border="0">
+                        <tr>
+                            <td width="55%">
+                                <table cellpadding="0" cellspacing="0" border="0" style="margin-top: 5px;">
+                                    <tr>
+                                        <td>
+                                            <div class="meta-label">Authorized Signature</div>
+                                            <div style="padding-top: 5px; padding-bottom: 5px; border-bottom: 1px solid #777777; width: 250px;">
+                                                {% if sig_path %}
+                                                <img src="{{ sig_path }}" alt="Signature" style="height: 42px; width: auto; display: block;" />
+                                                {% else %}
+                                                <div style="height: 42px;"></div>
+                                                {% endif %}
+                                            </div>
+                                            <div style="font-size: 9pt; font-weight: bold; margin-top: 6px; color: #333333;">Andrea Hutcheson</div>
+                                            <div style="font-size: 7.5pt; color: #777777; text-transform: uppercase; letter-spacing: 0.5px;">{{ signatory_position if signatory_position else "Authorized Signatory" }}</div>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                            
+                            <td width="45%">
+                                <div class="total-box">
+                                    <table cellpadding="0" cellspacing="0" border="0">
+                                        <tr class="total-row">
+                                            <td style="color: #666666;">Subtotal:</td>
+                                            <td align="right" style="text-align: right; color: #333333;">${{ subtotal }}</td>
+                                        </tr>
+                                        <tr class="total-row">
+                                            <td style="color: #666666;">Freight / Handling:</td>
+                                            <td align="right" style="text-align: right; color: #333333;">${{ freight }}</td>
+                                        </tr>
+                                        <tr class="grand-total-row">
+                                            <td style="color: #222222;">Grand Total:</td>
+                                            <td align="right" style="text-align: right; color: #222222; font-weight: bold;">${{ grand_total }}</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+
+            </td>
+        </tr>
+    </table>
+
+</body>
+</html>

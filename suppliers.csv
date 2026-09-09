@@ -1,0 +1,14 @@
+Name,Address,Palette,Typography,HeaderGeo,InvOrient,PackOrient,WMToggle,WMOpacity,PrimaryHex,SecondaryHex,FontSize,LogoAlign,TableStyle,Template
+Celebrity Pink,"1708 GAGE RD. MONTEBELLO, CA 90640, Phone: 323 837 9800",Grayscale Play,Helvetica,Minimalis,P,P,1,20,#333333,#666666,10,Center,Boutique,celebrity_pink_invoice.html
+DC GARMENTS,"DILKAP CHAMBERS UNIT NO.212B, VEERA DESAI ROAD, ANDHERI-W, MUMBAI 400053",Minimalist Stark,Helvetica Neue,Asymmetric Editorial Split,P,L,1,12,#000000,#111111,9,Left,Open-Frame Borderless,dc_garments_invoice.html
+K3 Worldwide,"""AVE DOMINADOR BAZAN, COFRISA 9, LOCAL 6 Y 6A, ZONA LIBRE DE COLON, PANAMA""",EnterpriseNavy,OpenSans,SplitLinear,P,P,1,12,#0A2540,#111111,10,Left,InstitutionalGrid,k3worldwide_sa_invoice.html
+Kaso Worldwide,"Room 1405-06, 14/F Beverley Commercial Centre, 87-105 Chatham Road South, Kowloon, Hong Kong",SlateCharcoal,OpenSans,LandscapePanels,L,L,1,12,#495057,#f8f9fa,11,Right,ModernShaded,kaso_worldwide_invoice.html
+Majestic Freight Forwarders Service,"2440 Artesia Ave, Fullerton CA 92833, USA",InstitutionalGrayscale,OpenSans,SplitBanner,L,L,1,10,#111111,#333333,11,Left,HeavyBorderGrid,maritime_ledger_landscape.html
+TOP FASHION INDUSTRY LIMITED,"ROOM S032, 2/F, THE CAPITAL 61-65 CHATHA, TSIM SHA TSUI KOWLOON HONG KONG",Light Green/Black,SegoeUI,Split,L,L,0,0,#4F9D69,#F0F0F0,12px,None,Solid Header,top_fashion_industry_limited_invoice.html
+"Dong Tai Hongda Industrial Co., Ltd",NO 53 SOUTH HAILING ROAD DONGTAI JIANSU CHINA,Minimalist Grayscale,HelveticaNeue,Split Minimalist,L,L,0,0,#000000,#333333,10pt,None,Clean Borders,dong_tai_hongda_industrial_co_ltd_invoice.html
+"EL PLANETA, S.A.","RUC. 1289576-1-602704 DV. 53, AVE. Jose Dominidador bazan edif. 9 local 5-a zona libre de colon",Grayscale,LiberationSans,SplitHeader,V,V,0,0,#222222,#F4F4F4,10px,None,MinimalBorder,el_planeta_sa_invoice.html
+Starline Fashion Zone,"King Yip Street Kwun Tong, Kowloon Hong Kong",Corporate,LiberationSans,SplitHeader,V,V,0,0,#2c3e50,#f8fafc,10px,None,MinimalBorder,starline_fashion_zone.html
+2253 Apparel,"1708 Gage Road, Montebello, CA 90640",HighContrast,LiberationSans,SplitBanner,Portrait,Portrait,0,10,#1e293b,#2563eb,10px,Left,Striped,2253_apparel_invoice.html
+JMD International FZ BV,"Free Zone, Curacao",BlueCharcoal,OpenSans,Asymmetric,P,P,0,0,#004A8F,#333333,10pt,None,StructuralMinimal,jmd_international_fz_bv_invoice.html
+GLOBAL FASHION LIMITED,"SOUTH TSIM SHA TSUI, KOWLOON, HONGKONG",BurgundyGray,HelveticaNeue,Asymmetric,Portrait,Portrait,0,0,#5B1414,#666666,10pt,None,EditorialExport,global_fashion_limited_invoice.html
+Claudia C Mayorga,"2440 ARTESIA AVE, FULLERTON CA 92833, UNITED STATES",Slate Navy,OpenSans,TextSplit,Portrait,Portrait,0,0,#1E293B,#475569,8.5pt,None,Grid,claudia_c_mayorga_invoice.html

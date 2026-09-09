@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Commercial Invoice - Starline Fashion Zone</title>
+    <style>
+        /* --- TYPOGRAPHY ARTIFACT ERASURE --- */
+        @font-face {
+            font-family: 'LiberationSans';
+            src: url('fonts/LiberationSans-Regular.ttf');
+        }
+
+        /* --- CANVAS BOUNDARIES: LETTER PORTRAIT --- */
+        @page {
+            size: letter portrait;
+            margin: 35px 40px;
+        }
+        
+        body {
+            font-family: 'LiberationSans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            color: #111111;
+            background-color: #ffffff;
+            margin: 0;
+            padding: 0;
+            font-size: 10.5px;
+            line-height: 1.3;
+        }
+
+        /* --- STRUCTURAL GEOMETRY --- */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        td, th {
+            border: none;
+            padding: 0;
+            vertical-align: top;
+        }
+
+        /* --- HK/UK STYLE TRADE HEADERS (SLATE NAVY PALETTE) --- */
+        .document-title {
+            font-size: 22px;
+            font-weight: 900;
+            color: #2c3e50;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            text-align: right;
+            border-bottom: 3px solid #2c3e50;
+            padding-bottom: 8px;
+            margin-bottom: 15px;
+        }
+
+        .company-name {
+            font-size: 18px;
+            font-weight: 800;
+            text-transform: uppercase;
+            color: #2c3e50;
+            letter-spacing: 0.5px;
+            margin-bottom: 4px;
+        }
+
+        .company-address {
+            font-size: 10px;
+            color: #4a5568;
+            max-width: 250px;
+            line-height: 1.4;
+        }
+
+        /* --- METADATA MATRICES --- */
+        .meta-box {
+            border: 1px solid #2c3e50;
+            margin-bottom: 15px;
+        }
+
+        .meta-box td {
+            padding: 6px 8px;
+            border: 1px solid #2c3e50;
+        }
+
+        .meta-label {
+            font-size: 8.5px;
+            font-weight: bold;
+            color: #4a5568;
+            text-transform: uppercase;
+            display: block;
+            margin-bottom: 2px;
+        }
+
+        .meta-value {
+            font-size: 11px;
+            font-weight: bold;
+            color: #111111;
+        }
+
+        /* --- HIGH-DENSITY ITEM MANIFEST --- */
+        thead {
+            display: table-header-group;
+        }
+
+        .manifest-table {
+            margin-bottom: 15px;
+            border: 1px solid #2c3e50;
+        }
+
+        .manifest-table th {
+            background-color: #eef2f5;
+            color: #2c3e50;
+            font-size: 9.5px;
+            font-weight: bold;
+            padding: 8px;
+            border: 1px solid #2c3e50;
+            text-transform: uppercase;
+            text-align: left;
+        }
+
+        .manifest-table td {
+            padding: 8px;
+            border-right: 1px solid #2c3e50;
+            border-bottom: 1px solid #dcdcdc;
+            vertical-align: middle;
+            font-size: 10.5px;
+        }
+
+        .text-right { text-align: right; }
+        .text-center { text-align: center; }
+
+        /* --- TOTALS & SIGNATURE LOCKS --- */
+        .summary-signature-container {
+            page-break-inside: avoid;
+            margin-top: 15px;
+        }
+
+        .totals-box td {
+            padding: 6px 8px;
+            font-size: 11px;
+            border-bottom: 1px solid #dcdcdc;
+        }
+
+        .totals-box .grand-total {
+            background-color: #2c3e50;
+            color: #ffffff;
+            font-weight: bold;
+            font-size: 12px;
+        }
+
+        /* Verified Signature Formatting */
+        .signature-frame {
+            height: 45px;
+            border-bottom: 1px solid #2c3e50;
+            margin-bottom: 4px;
+            vertical-align: bottom;
+            text-align: right;
+            padding-bottom: 2px;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="document-title">COMMERCIAL INVOICE</div>
+    
+    <table style="margin-bottom: 20px;">
+        <tr>
+            <td style="width: 55%;">
+                <div class="company-name">{{ supplier_name }}</div>
+                <div class="company-address">{{ supplier_address }}</div>
+            </td>
+            <td style="width: 45%;">
+                <div style="border: 1px solid #2c3e50; padding: 8px; background-color: #f8fafc;">
+                    <span class="meta-label">Bill To / Consignee:</span>
+                    <div style="font-weight: bold; font-size: 11px; color: #111111; margin-top: 4px;">{{ client_name }}</div>
+                    <div style="margin-top: 2px; color: #333333;">{{ client_address }}</div>
+                </div>
+            </td>
+        </tr>
+    </table>
+
+    <table class="meta-box">
+        <tr>
+            <td style="width: 25%;">
+                <span class="meta-label">Invoice No.</span>
+                <span class="meta-value">{{ inv_no }}</span>
+            </td>
+            <td style="width: 25%;">
+                <span class="meta-label">Date</span>
+                <span class="meta-value">{{ date }}</span>
+            </td>
+            <td style="width: 25%;">
+                <span class="meta-label">B/L Number</span>
+                <span class="meta-value">{{ bl }}</span>
+            </td>
+            <td style="width: 25%;">
+                <span class="meta-label">Total CTNS</span>
+                <span class="meta-value">{{ total_ctns }}</span>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="4">
+                <span class="meta-label">Payment Terms</span>
+                <span class="meta-value" style="font-weight: normal;">{{ payment_terms }}</span>
+            </td>
+        </tr>
+    </table>
+
+    <table class="manifest-table">
+        <thead>
+            <tr>
+                <th style="width: 55%;">Description of Goods</th>
+                <th class="text-center" style="width: 15%;">Quantity</th>
+                <th class="text-right" style="width: 15%;">Unit Price</th>
+                <th class="text-right" style="width: 15%;">Total Amount</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in items %}
+            <tr>
+                <td>{{ item.Description }}</td>
+                <td class="text-center">{{ item.Qty }}</td>
+                <td class="text-right">${{ item.UnitPrice }}</td>
+                <td class="text-right" style="font-weight: bold;">${{ item.Total }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="summary-signature-container">
+        <table style="width: 100%;">
+            <tr>
+                <td style="width: 50%; padding-right: 30px;">
+                    <div style="font-size: 8.5px; color: #4a5568; text-align: justify; margin-top: 40px;">
+                        <strong>DECLARATION:</strong> We hereby certify that the information on this invoice is true and correct, and that the contents of this shipment are as stated above.
+                    </div>
+                </td>
+                
+                <td style="width: 50%;">
+                    <table class="totals-box" style="width: 100%; border: 1px solid #2c3e50; margin-bottom: 25px;">
+                        <tr>
+                            <td>Subtotal:</td>
+                            <td class="text-right">${{ subtotal }}</td>
+                        </tr>
+                        <tr>
+                            <td>Freight Charges:</td>
+                            <td class="text-right">${{ freight if freight else "0.00" }}</td>
+                        </tr>
+                        <tr class="grand-total">
+                            <td style="padding: 8px;">GRAND TOTAL (USD):</td>
+                            <td class="text-right" style="padding: 8px;">${{ grand_total }}</td>
+                        </tr>
+                    </table>
+
+                    <div style="text-align: right; padding-left: 20px;">
+                        <div style="font-size: 10px; font-weight: bold; margin-bottom: 10px; color: #2c3e50;">
+                            For and on behalf of<br>
+                            <span style="font-size: 12px;">STARLINE FASHION ZONE</span>
+                        </div>
+                        
+                        <div class="signature-frame">
+                            {% if sig_path %}
+                                <img src="{{ sig_path }}" style="max-height: 40px; display: inline-block;">
+                            {% endif %}
+                        </div>
+                        <div style="font-size: 9px; color: #4a5568; margin-top: 4px;">
+                            {{ signatory_position }}<br>
+                            <span style="font-style: italic; font-size: 8px;">Authorized Signature / Company Chop</span>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+</body>
+</html>
